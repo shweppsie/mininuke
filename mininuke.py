@@ -1,5 +1,6 @@
-import cocos
 import pyglet
+import pyglet.window
+from pyglet.window import key
 import sys
 
 import browser
@@ -8,70 +9,52 @@ import player
 WINDOW_HEIGHT=768
 WINDOW_WIDTH=1024
 
-#browse = browser.Browser('/mnt/zoidberg/shared/videos/movies-other/')
-browse = browser.Browser('/home/nathan/')
+window = pyglet.window.Window(WINDOW_WIDTH,WINDOW_HEIGHT)
+drawlist = []
+selected = 0
+keys_pressed = set()
 
-class Background(cocos.layer.util_layers.ColorLayer):
-    def __init__(self):
-        super( Background, self).__init__(255,255,255,255)
+@window.event
+def on_key_press (symbol, modifiers):
+    keys_pressed.add(key)
+    update()
 
-        sprite = cocos.sprite.Sprite('logo.png')
+@window.event
+def on_key_release (key, modifiers):
+    keys_pressed.remove(key)
+    update()
 
-        x = WINDOW_WIDTH-sprite.image.width
-        y = WINDOW_HEIGHT-(sprite.image.height/2)
-        sprite.position = (x,y)
-        
-        sprite.image_anchor_x = 0
-        sprite.image_anchor_Y = 0
-
-        self.add( sprite )
-
-class Events(cocos.layer.Layer):
-    is_event_handler = True
-    def __init__(self):
-        super( Events, self).__init__()
-
-        #a list to store pressed keys in
-        self.keys_pressed = set()
-
-    def on_mouse_press(self, x, y, buttons, modifiers):
-        print "(%s,%s)" % (x,y)
-        print "(%s,%s)" % cocos.director.director.get_virtual_coordinates(x,y)
-
-    def on_key_press (self, key, modifiers):
-        #pressing q quits the program
-        self.keys_pressed.add(key)
-        self.update()
-
-    def on_key_release (self, key, modifiers):
-        self.keys_pressed.remove(key)
-        self.update()
-
-    def update(self):
-        """Deal with all currently pressed keys"""
-        key_names = [pyglet.window.key.symbol_string (k) for k in self.keys_pressed]
-        if 'Q' in key_names:
+def update():
+    for i in keys_pressed:
+        if i == key.Q:
             sys.exit(0)
-        print key_names
-
-class Menu(cocos.layer.Layer):
-    def __init__(self):
-        super( Menu, self).__init__()
-        
-        x = 10
-        y = WINDOW_HEIGHT - 100
-        for i in browse.listdirs():
-            #label = cocos.text.Label(i,font_name='Helvetica',font_size=16, x=100, y=ycoord, color=(0,0,0,255) )
-            i = "<H2>"+i+"</H2>"
-            label = cocos.text.HTMLLabel(i,(x,y))
-            if y <= 0:
-                break
-            else:
-                y -= 40
-            self.add(label)
+        elif i == key.DOWN:
+            selected += 1
 
 
-if __name__ == "__main__":
-    cocos.director.director.init(width=WINDOW_WIDTH,height=WINDOW_HEIGHT,resizable=False,caption="MiniNuke Media Center")
-    
-    cocos.director.director.run(cocos.scene.Scene( Background(),Events(),Menu() ))
+@window.event
+def on_draw():
+    window.clear()
+    for i in drawlist:
+        i[1].draw()
+
+def listfiles(path):
+    browse = browser.Browser(path)
+    x = 100
+    y = WINDOW_HEIGHT - 100
+    for i in browse.listdirs():
+        if y < 0:
+            break
+        else:
+            label = pyglet.text.Label(i,font_name='Modern',
+                                    font_size=13, x=x, y=y, 
+                                    #margin_top=5,margin_bottom=5,
+                                    color=(255,255,255,255) )
+            y -= 40
+            drawlist.append((i,label))
+
+
+#get the list of files to display
+listfiles('/home/nathan/')
+
+pyglet.app.run()
