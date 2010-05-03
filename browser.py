@@ -60,7 +60,7 @@ class Browser:
         if files > 0:
             for a in files:
                 if os.path.isdir(os.path.join(self.getpath(),a)):
-                    tmp.append(a)
+                    tmp.append(a+'*')
     
             tmp.sort()
             results.extend(tmp)
