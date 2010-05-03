@@ -1,13 +1,21 @@
 import subprocess
 import sys
+import os
+
+import configurator
 
 class Player:
-    def __init__(self, args):
+    def __init__(self, filename, args, log):
+        
+        log = os.path.expanduser(log)
+        logger = open(log,'w')
+            
         command = ["/usr/bin/mplayer"]
+        command.append(filename)
+
+        args = args.split(' ')
         command.extend(args)
-        p = subprocess.Popen(command, stdout=sys.stdout, stderr=sys.stderr).wait()
+
+        p = subprocess.Popen(command, stdout=logger, stderr=logger).wait()
         sys.stdout.flush()
         sys.stderr.flush()
-
-if __name__=="__main__":
-    p = Player(["/media/mount/videos/tv/The New Yankee Workshop/Season 14/0201 mitre bench and storage part 1.divx"])

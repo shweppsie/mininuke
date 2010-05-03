@@ -4,7 +4,7 @@ import sys
 class Browser:
     def __init__(self,path):
         self.path = "/"
-        self.root = os.path.abspath(path)
+        self.root = os.path.expanduser(path)
         if not os.path.isdir(self.root):
             raise IOError('Path does not exist '+self.root)
 
@@ -12,15 +12,12 @@ class Browser:
         return os.path.join(self.root+self.path)
 
     def isdir(self, path):
-        print "isdir: %s" % os.path.join(self.getpath(),path)
         return os.path.isdir(os.path.join(self.getpath(),path))
 
     def down(self, dir):
         newpath = os.path.join( self.getpath(),dir )
-        print newpath
         if os.path.isdir(newpath):
             self.path = os.path.join( self.path,dir )
-            print 'down: %s' % self.path
         else:
             raise IOError('Path does not exist '+newpath)
 
@@ -60,20 +57,23 @@ class Browser:
         filter = ['avi','.mkv','divx','wmv','mov']
         files = os.listdir( self.getpath() )
 
-        for a in files:
-            if os.path.isdir(os.path.join(self.getpath(),a)):
-                tmp.append(a)
+        if files > 0:
+            for a in files:
+                if os.path.isdir(os.path.join(self.getpath(),a)):
+                    tmp.append(a)
+    
+            tmp.sort()
+            results.extend(tmp)
+            tmp = []
 
-        sorted(tmp)
-        results.extend(tmp)
-        tmp = []
-
-        for a in files:
-            for i in filter:
-                if a.endswith(i):
-                    results.append(a)
+            for a in files:
+                for i in filter:
+                    if a.endswith(i):
+                        tmp.append(a)
         
-        results.extend(sorted(tmp))
+        if len(tmp) > 0:
+            tmp.sort()
+            results.extend(tmp)
         
         return results
 
