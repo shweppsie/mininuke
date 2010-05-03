@@ -2,59 +2,78 @@ import pyglet
 import pyglet.window
 from pyglet.window import key
 import sys
+import os
 
 import browser
 import player
+import labels
 
-WINDOW_HEIGHT=768
-WINDOW_WIDTH=1024
-
-window = pyglet.window.Window(WINDOW_WIDTH,WINDOW_HEIGHT)
-drawlist = []
+window = pyglet.window.Window(1024,768)
+browse = browser.Browser('/home/nathan/tv')
 selected = 0
 keys_pressed = set()
+stuff = []
+
+def update_list():
+    global stuff
+    stuff = browse.list()
 
 @window.event
 def on_key_press (symbol, modifiers):
-    keys_pressed.add(key)
-    update()
+    keys_pressed.add(symbol)
+    keys_update()
 
 @window.event
-def on_key_release (key, modifiers):
-    keys_pressed.remove(key)
-    update()
+def on_key_release (symbol, modifiers):
+    if symbol in keys_pressed:
+        keys_pressed.remove(symbol)
+    keys_update()
 
-def update():
+def keys_update():
+    global selected
     for i in keys_pressed:
         if i == key.Q:
-            sys.exit(0)
-        elif i == key.DOWN:
-            selected += 1
-
+            pyglet.app.exit()
+        if i == key.DOWN:
+            if selected < len(stuff)-1:
+                selected += 1
+        if i == key.UP:
+            if selected > 0:
+                selected -= 1
+        if i == key.ENTER:
+            path = stuff[selected]
+            if browse.isdir(path):
+                browse.down(path)
+                update_list()
+            else:
+                player.Player((os.path.join(browse.getpath(),path),))
+        if i == key.BACKSPACE:
+            browse.up()
+            update_list()
 
 @window.event
 def on_draw():
     window.clear()
-    for i in drawlist:
-        i[1].draw()
+    for i in listfiles():
+        i.draw()
 
-def listfiles(path):
-    browse = browser.Browser(path)
+def listfiles():
+    drawlist = []
     x = 100
-    y = WINDOW_HEIGHT - 100
-    for i in browse.listdirs():
+    y = window.height - 100
+    for i in xrange(len(stuff)):
         if y < 0:
             break
         else:
-            label = pyglet.text.Label(i,font_name='Modern',
-                                    font_size=13, x=x, y=y, 
-                                    #margin_top=5,margin_bottom=5,
-                                    color=(255,255,255,255) )
+            if i is selected:
+                label = labels.Selected(stuff[i],x,y)
+            else:
+                label = labels.Directory(stuff[i],x,y)
             y -= 40
-            drawlist.append((i,label))
+            drawlist.append(label)
+    return drawlist
 
-
-#get the list of files to display
-listfiles('/home/nathan/')
+update_list()
 
 pyglet.app.run()
+
