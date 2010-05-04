@@ -18,6 +18,7 @@ browse = browser.Browser(configurator.config.get("mininuke", "path"))
 selected = 0
 keys_pressed = set()
 nodes = []
+dis_fps = 100
 
 def update_list():
     global nodes
@@ -61,6 +62,11 @@ def keys_update():
 
 @window.event
 def on_draw():
+    #print from rate every 100 frames
+    dis_fps -= 1
+    if dis_fps <= 0:
+        print 'FPS is %f' % clock.get_fps()
+
     keys_update()
     window.clear()
     for i in listfiles():
