@@ -61,8 +61,6 @@ def keys_update():
 
 @window.event
 def on_draw():
-    print "draw()"
-
     keys_update()
     window.clear()
     for i in listfiles():
@@ -85,8 +83,6 @@ def listfiles():
             drawlist.append(label)
         y -= 40
     return drawlist
-
-pyglet.clock.set_fps_limit(30)
 
 update_list()
 
