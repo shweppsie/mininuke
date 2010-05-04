@@ -84,6 +84,8 @@ def listfiles():
         y -= 40
     return drawlist
 
+pyglet.clock.set_fps_limit(30)
+
 update_list()
 
 pyglet.app.run()
