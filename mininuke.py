@@ -13,6 +13,7 @@ import labels
 import configurator
 
 window = pyglet.window.Window(1024,768)
+window.set_exclusive_mouse()
 browse = browser.Browser(configurator.config.get("mininuke", "path"))
 selected = 0
 keys_pressed = set()
