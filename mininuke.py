@@ -33,6 +33,14 @@ def on_key_release (symbol, modifiers):
         keys_pressed.remove(symbol)
     keys_update()
 
+@window.event
+def on_mouse_motion(x, y, dx, dy):
+    if dy > 10
+        selected += 1 
+    if dy < -10
+        selected -= 1
+
+
 def keys_update():
     global selected
     for i in keys_pressed:
