@@ -51,31 +51,25 @@ class Browser:
         return path
 
     def list(self):
-        results = []
-        tmp = []
+        files = []
+        folders = []
 
         filter = ['avi','.mkv','divx','wmv','mov']
-        files = os.listdir( self.getpath() )
+        nodes = os.listdir( self.getpath() )
 
-        if files > 0:
-            for a in files:
+        if nodes > 0:
+            for a in nodes:
                 if os.path.isdir(os.path.join(self.getpath(),a)):
-                    tmp.append(a+'*')
-    
-            tmp.sort()
-            results.extend(tmp)
-            tmp = []
+                    folders.append(a)
+            folders.sort()
 
-            for a in files:
+            for a in nodes:
                 for i in filter:
                     if a.endswith(i):
-                        tmp.append(a)
+                        files.append(a)
+            files.sort()
         
-        if len(tmp) > 0:
-            tmp.sort()
-            results.extend(tmp)
-        
-        return results
+        return (files, folders)
 
 if __name__=="__main__":
     print sys.argv
