@@ -41,9 +41,11 @@ def keys_update():
                     filename = os.path.join(browse.getpath(),nodes[selected])
                     args = configurator.config.get("mplayer", "arguments")
                     
+                    window.set_exclusive_mouse(False)
                     window.set_fullscreen(False)
                     player.Player(filename, args, configurator.config.get("mplayer", "log"))
                     window.set_fullscreen(True)
+                    window.set_exclusive_mouse(True)
                     window.activate()
 
                     #ensure no more keypreses will be processed
