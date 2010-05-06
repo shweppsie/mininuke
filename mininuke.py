@@ -13,14 +13,14 @@ import labels
 import configurator
 
 window = pyglet.window.Window(fullscreen=True)
-window.set_exclusive_mouse()
+#window.set_exclusive_mouse()
 browse = browser.Browser(configurator.config.get("mininuke", "path"))
 selected = 0
 keys_pressed = set()
 nodes = []
 
 def keys_update():
-    global selected,nodes
+    global selected,nodes,keys_pressed
     for i in keys_pressed:
         if i == key.Q:
             pyglet.app.exit() # q quits the program as does escape
@@ -40,10 +40,16 @@ def keys_update():
                 else:
                     filename = os.path.join(browse.getpath(),nodes[selected])
                     args = configurator.config.get("mplayer", "arguments")
-                    window.minimize()
+                    
+                    window.set_fullscreen(False)
                     player.Player(filename, args, configurator.config.get("mplayer", "log"))
-                    window.maximize()
+                    window.set_fullscreen(True)
+                    window.activate()
+
+                    #ensure no more keypreses will be processed
+                    keys_pressed = set() 
                     return
+
         if i == key.BACKSPACE:
             browse.up()
             nodes = browse.list()
@@ -77,7 +83,7 @@ def on_draw():
     x = 100
     y = window.height/2 + (selected * 40)
     for i in xrange(len(nodes)):
-        if y > 200 and y < 550:
+        if y > window.height/3 and y < (window.height/3)*2:
             if i is selected:
                 label = labels.Selected(nodes[i],x,y)
             else:
