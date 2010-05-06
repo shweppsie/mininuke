@@ -12,7 +12,7 @@ import player
 import labels
 import configurator
 
-window = pyglet.window.Window(1024,768)
+window = pyglet.window.Window(fullscreen=True)
 window.set_exclusive_mouse()
 browse = browser.Browser(configurator.config.get("mininuke", "path"))
 selected = 0
@@ -40,7 +40,9 @@ def keys_update():
                 else:
                     filename = os.path.join(browse.getpath(),nodes[selected])
                     args = configurator.config.get("mplayer", "arguments")
+                    window.minimize()
                     player.Player(filename, args, configurator.config.get("mplayer", "log"))
+                    window.maximize()
                     return
         if i == key.BACKSPACE:
             browse.up()
