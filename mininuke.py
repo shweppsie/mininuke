@@ -41,6 +41,7 @@ def keys_update():
                     filename = os.path.join(browse.getpath(),nodes[selected])
                     args = configurator.config.get("mplayer", "arguments")
                     player.Player(filename, args, configurator.config.get("mplayer", "log"))
+                    return
         if i == key.BACKSPACE:
             browse.up()
             nodes = browse.list()
