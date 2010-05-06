@@ -23,10 +23,10 @@ def keys_update():
     for i in keys_pressed:
         if i == key.Q:
             pyglet.app.exit() # q quits the program as does escape
-        if i == key.DOWN:
+        if i == key.DOWN or i == key.PAGEDOWN:
             if selected < len(nodes)-1:
                 selected += 1
-        if i == key.UP:
+        if i == key.UP or i == key.PAGEUP:
             if selected > 0:
                 selected -= 1
         if i == key.ENTER:
@@ -43,6 +43,16 @@ def keys_update():
         if i == key.BACKSPACE:
             browse.up()
             nodes = browse.list()
+
+def doitem(path):
+    if browse.isdir(path):
+        selected = 0
+        browse.down(path)
+        nodes = browse.list()
+    else:
+        filename = os.path.join(browse.getpath(),nodes[selected])
+        args = configurator.config.get("mplayer", "arguments")
+        player.Player(filename, args, configurator.config.get("mplayer", "log"))
 
 
 @window.event
@@ -62,7 +72,6 @@ def on_draw():
     
     x = 100
     y = window.height/2 + (selected * 40)
-    
     for i in xrange(len(nodes)):
         if y > 200 and y < 550:
             if i is selected:
