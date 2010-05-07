@@ -8,6 +8,7 @@ def readconfig():
     config.set("mininuke","path","./")
     
     config.add_section("mplayer")
+    config.set("mplayer","path","/usr/bin/mplayer")
     config.set("mplayer","arguments","")
     config.set("mplayer","log","~/.mininuke.mplayer.log")
 

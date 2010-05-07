@@ -49,7 +49,7 @@ def doitem(path):
     else:
         filename = os.path.join(browse.getpath(),nodes[selected][0])
         args = configurator.config.get("mplayer", "arguments")
-        player.Player(filename, args, configurator.config.get("mplayer", "log"))
+        player.Player(configurator.config.get("mplayer", "path"), filename, args, configurator.config.get("mplayer", "log"))
 
 
 @window.event
