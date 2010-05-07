@@ -7,9 +7,9 @@ class Title(pyglet.text.Label):
     def __init__(self, filename,x,y):
         super(Title, self).__init__(filename, font_name, 25, True, False, (200,255,255,255), x, y)
 
-class Footnote(pyglet.text.Label):
+class Path(pyglet.text.Label):
     def __init__(self, filename,x,y):
-        super(Footnote, self).__init__(filename, font_name, 12, False, False, (255,255,255,255), x, y)
+        super(Path, self).__init__(filename, font_name, 25, True, False, (255,255,255,255), x, y)
 
 class File(pyglet.text.Label):
     def __init__(self, directory,x,y):

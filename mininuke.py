@@ -58,8 +58,8 @@ def on_key_press (symbol, modifiers):
     if symbol == key.ENTER:
         if selected < len(nodes): # there must be files in this folder
             if not nodes[selected][1]:
-                selected = 0
                 browse.down(nodes[selected][0])
+                selected = 0
                 fillnodes()
             else:
                 filename = os.path.join(browse.getpath(),nodes[selected][0])
@@ -94,9 +94,9 @@ def on_draw():
     window.clear()
     
     x = 100
-    y = window.height/2 + (selected * 40)
+    y = window.height/4 + (selected * 40)
     for i in xrange(len(nodes)):
-        if y > window.height/3 and y < (window.height/3)*2:
+        if y > 100 and y < window.height / 2.5:
             if nodes[i][1]:
                 label = labels.File(nodes[i][0],x,y)
             else:
@@ -108,10 +108,10 @@ def on_draw():
             label.draw()
         y -= 40
     
-    title = labels.Title('MININUKE', x=window.width/2-80, y=window.height-60)
+    title = labels.Title('MININUKE', x=window.width/2-80, y=(window.height-60) )
     title.set_style('background_color', (0,0,0,255))
     title.draw()
-    labels.Footnote('* indicates folders', x=window.width-225, y=20).draw()
+    labels.Path(browse.curpath(), x=x, y=(window.height/2.5)).draw()
 
 fillnodes()
 pyglet.app.run()

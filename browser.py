@@ -26,29 +26,7 @@ class Browser:
             self.path = os.path.dirname( self.path )
 
     def curpath(self):
-        path = self.path
-
-        if path == '':
-            path = '/'
-        if path == '/':
-            return '/'
-
-        if len(path) > 1:
-            if path.startswith('/'):
-                path = path[1:]
-            if path.endswith('/'):
-                path = path[:-1]
-        
-        path = path.split('/')
-        if len(path) > 1:
-            if not path[0].startswith('/'):
-                path[0] = "/"+path[0]
-
-            for i in xrange(len(path)):
-                if not path[i].endswith('/'):
-                    path[i] += '/'
-
-        return path
+        return self.path
 
     def list(self):
         files = []
