@@ -11,11 +11,10 @@ class Footnote(pyglet.text.Label):
     def __init__(self, filename,x,y):
         super(Footnote, self).__init__(filename, font_name, 12, False, False, (255,255,255,255), x, y)
 
-class Selected(pyglet.text.Label):
-    def __init__(self, filename,x,y):
-        super(Selected, self).__init__(filename, font_name, font_size, True, False, (200,0,0,255), x, y)
-
-class Item(pyglet.text.Label):
+class File(pyglet.text.Label):
     def __init__(self, directory,x,y):
-        super(Item, self).__init__(directory, font_name, font_size, False,True, (255,255,255,255), x, y)
+        super(File, self).__init__(directory, font_name, font_size, False,True, (255,255,255,255), x, y)
 
+class Folder(pyglet.text.Label):
+    def __init__(self, directory,x,y):
+        super(Folder, self).__init__(directory, font_name, font_size, False,True, (0,0,255,255), x, y)

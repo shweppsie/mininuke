@@ -97,10 +97,14 @@ def on_draw():
     y = window.height/2 + (selected * 40)
     for i in xrange(len(nodes)):
         if y > window.height/3 and y < (window.height/3)*2:
-            if i is selected:
-                label = labels.Selected(nodes[i][0],x,y)
+            if nodes[i][1]:
+                label = labels.File(nodes[i][0],x,y)
             else:
-                label = labels.Item(nodes[i][0],x,y)
+                label = labels.Folder(nodes[i][0],x,y)
+            if i is selected:
+                label.set_style('bold',True)
+                label.set_style('italic',False)
+                label.font_size += 2
             label.draw()
         y -= 40
     
