@@ -14,10 +14,7 @@ wrote my own. Tell me if you like it.
 
 # Installation #
 Mininuke requres Python and Pyglet to
-run. Get pyglet from 
-
-*   (http://www.pyglet.org/download.html)
-
+run. Get pyglet from [here](http://www.pyglet.org/download.html) 
 then run ./mininuke
 
 # Configuration #
