@@ -1,6 +1,6 @@
 # Mininuke #
 
-Media Centre File Browser
+Media Center File Browser
 
 (c) 2010 GNU GPL v3
 
@@ -15,7 +15,9 @@ wrote my own. Tell me if you like it.
 # Installation #
 Mininuke requres Python and Pyglet to
 run. Get pyglet from 
+
 *   http://www.pyglet.org/download.html
+
 then run ./mininuke
 
 # Configuration #
