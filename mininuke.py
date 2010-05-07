@@ -14,11 +14,14 @@ import configurator
 
 window = pyglet.window.Window(fullscreen=True)
 window.set_exclusive_mouse(True)
-browse = browser.Browser(configurator.config.get("mininuke", "path"))
-selected = 0
-keys_pressed = set()
-nodes = []
 
+browse = browser.Browser(configurator.config.get("mininuke", "path"))
+keys_pressed = set()
+selected = 0
+nodes = []
+image = None
+
+#updates the list of nodes (files and directories)
 def fillnodes():
     global nodes
     nodes = []
@@ -41,53 +44,61 @@ def keys_update():
             if selected > 0:
                 selected -= 1
 
-def doitem(path):
-    if browse.isdir(path):
-        selected = 0
-        browse.down(path)
-        (files,folders) = browse.list()
+def setimage():
+    global image
+    imagepath = browse.getimage()
+    if os.path.exists(imagepath):
+        #directory has an image
+        image = pyglet.image.load(imagepath)
+        image.anchor_x = image.width // 2
+        image.anchor_y = image.height // 2
     else:
-        filename = os.path.join(browse.getpath(),nodes[selected][0])
-        args = configurator.config.get("mplayer", "arguments")
-        player.Player(configurator.config.get("mplayer", "path"), filename, args, configurator.config.get("mplayer", "log"))
+        image = None
 
+#select current item
+def doitem(node):
+    if not node[1]:
+        #directory
+        selected = 0
+        browse.down(node[0])
+        fillnodes()
+        setimage()
+    else:
+        #file
+        window.set_exclusive_mouse(False)
+        window.set_fullscreen(False)
+        player.Player(filename, args, configurator.config.get("mplayer", "log"))
+        window.set_fullscreen(True)
+        window.set_exclusive_mouse(True)
+        window.activate()
+    
+        #ensure no more keypreses will be processed
+        keys_pressed = set() 
+        return
 
+#key press event
 @window.event
 def on_key_press (symbol, modifiers):
     global selected,keys_pressed
     if symbol == key.ENTER:
         if selected < len(nodes): # there must be files in this folder
-            if not nodes[selected][1]:
-                browse.down(nodes[selected][0])
-                selected = 0
-                fillnodes()
-            else:
-                filename = os.path.join(browse.getpath(),nodes[selected][0])
-                args = configurator.config.get("mplayer", "arguments")
-                
-                window.set_exclusive_mouse(False)
-                window.set_fullscreen(False)
-                player.Player(filename, args, configurator.config.get("mplayer", "log"))
-                window.set_fullscreen(True)
-                window.set_exclusive_mouse(True)
-                window.activate()
-
-                #ensure no more keypreses will be processed
-                keys_pressed = set() 
-                return
+            doitem(nodes[selected])
     elif symbol == key.BACKSPACE:
         browse.up()
         fillnodes()
+        setimage()
         return
     elif symbol == key.Q or symbol == key.UP or symbol == key.DOWN:
         keys_pressed.add(symbol)
 
+#unmark held down keys
 @window.event
 def on_key_release (symbol, modifiers):
     if symbol in keys_pressed:
         keys_pressed.remove(symbol)
     keys_update()
 
+#draw method
 @window.event
 def on_draw():
     keys_update()
@@ -112,6 +123,8 @@ def on_draw():
     title.set_style('background_color', (0,0,0,255))
     title.draw()
     labels.Path(browse.curpath(), x=x, y=(window.height/2.5)).draw()
+    if image != None:
+        image.blit( (window.width/2) , (window.height-image.height) )
 
 fillnodes()
 pyglet.app.run()
