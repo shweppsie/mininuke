@@ -30,6 +30,7 @@ def fillnodes():
         nodes.append((i,False))
     for i in files:
         nodes.append((i,True))
+    sorted(nodes, key=itemgetter(0)
 
 #keys that have action when held down go here
 def keys_update():

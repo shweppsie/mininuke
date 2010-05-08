@@ -42,13 +42,11 @@ class Browser:
             for a in nodes:
                 if os.path.isdir(os.path.join(self.getpath(),a)):
                     folders.append(a)
-            folders.sort()
 
             for a in nodes:
                 for i in filter:
                     if a.endswith(i):
                         files.append(a)
-            files.sort()
         
         return (files, folders)
 
