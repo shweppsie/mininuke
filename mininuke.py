@@ -3,6 +3,7 @@
 import pyglet
 import pyglet.window
 from pyglet.window import key
+from operator import itemgetter
 import sys
 import os
 import optparse
@@ -30,7 +31,7 @@ def fillnodes():
         nodes.append((i,False))
     for i in files:
         nodes.append((i,True))
-    sorted(nodes, key=itemgetter(0)
+    nodes = sorted(nodes, key=itemgetter(0))
 
 #keys that have action when held down go here
 def keys_update():
@@ -58,10 +59,11 @@ def setimage():
 
 #select current item
 def doitem(node):
+    global selected
     if not node[1]:
         #directory
-        selected = 0
         browse.down(node[0])
+        selected = 0
         fillnodes()
         setimage()
     else:
