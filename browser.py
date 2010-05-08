@@ -9,9 +9,14 @@ class Browser:
             raise IOError('Path does not exist '+self.root)
 
     def getimage(self,path):
-        rootpath = os.path.join(self.getpath(),path,'folder.png')
-        if os.path.exists(rootpath):
-            return rootpath 
+        rootpath = os.path.join(self.getpath(),path)
+        if os.path.isfile(rootpath):
+            #TODO load thumbnail for image
+            print "thumbnail"
+        else:
+            rootpath = os.path.join(rootpath,'folder.png')
+            if os.path.exists(rootpath):
+                return rootpath 
 
     def getpath(self):
         return os.path.join(self.root+self.path)
