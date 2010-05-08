@@ -42,33 +42,38 @@ def keys_update():
         if i == key.DOWN:
             if selected < len(nodes)-1:
                 selected += 1
+                setimage()
         if i == key.UP:
             if selected > 0:
                 selected -= 1
+                setimage()
         #page down and up take you to the next and previous character
         if i == key.PAGEDOWN:
             char = nodes[selected][0][0]
             while selected + 1 < len(nodes):
                 selected += 1
                 if nodes[selected][0][0] != char:
-                    return
+                    break
+            setimage()
         if i == key.PAGEUP:
             char = nodes[selected][0][0]
-            while selected - 1 > 0:
+            while selected - 1 >= 0:
                 selected -= 1
                 if nodes[selected][0][0] != char:
-                    return
+                    break
+            setimage()
 
 def setimage():
     global image
-    imagepath = browse.getimage()
-    if os.path.exists(imagepath):
-        #directory has an image
-        image = pyglet.image.load(imagepath)
-        image.anchor_x = image.width // 2
-        image.anchor_y = image.height // 2
-    else:
-        image = None
+    if len(nodes) > 0:
+        imagepath = browse.getimage(nodes[selected][0])
+        if imagepath != None:
+            #directory has an image
+            image = pyglet.image.load(imagepath)
+            image.anchor_x = image.width // 2
+            image.anchor_y = image.height // 2
+        else:
+            image = None
 
 #select current item
 def doitem(node):
@@ -139,9 +144,9 @@ def on_draw():
     title = labels.Title('MININUKE', x=window.width/2-80, y=(window.height-60) )
     title.set_style('background_color', (0,0,0,255))
     title.draw()
-    #labels.Path(browse.curpath(), x=x, y=(window.height/2.5)).draw()
-    #if image != None:
-    #    image.blit( (window.width/2) , (window.height-image.height) )
+    labels.Path(browse.curpath(), x=x, y=(window.height-120)).draw()
+    if image != None:
+        image.blit( (window.width/2) , (window.height-image.height) )
 
 fillnodes()
 pyglet.app.run()

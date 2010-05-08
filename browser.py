@@ -8,8 +8,10 @@ class Browser:
         if not os.path.isdir(self.root):
             raise IOError('Path does not exist '+self.root)
 
-    def getimage(self):
-        return os.path.join(self.getpath(),'folder.png')
+    def getimage(self,path):
+        rootpath = os.path.join(self.getpath(),path,'folder.png')
+        if os.path.exists(rootpath):
+            return rootpath 
 
     def getpath(self):
         return os.path.join(self.root+self.path)
