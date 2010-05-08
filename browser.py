@@ -12,7 +12,7 @@ class Browser:
         rootpath = os.path.join(self.getpath(),path)
         if os.path.isfile(rootpath):
             #TODO load thumbnail for image
-            print "thumbnail"
+            print rootpath
         else:
             rootpath = os.path.join(rootpath,'folder.png')
             if os.path.exists(rootpath):
