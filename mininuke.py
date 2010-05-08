@@ -45,6 +45,19 @@ def keys_update():
         if i == key.UP:
             if selected > 0:
                 selected -= 1
+        #page down and up take you to the next and previous character
+        if i == key.PAGEDOWN:
+            char = nodes[selected][0][0]
+            while selected + 1 < len(nodes):
+                selected += 1
+                if nodes[selected][0][0] != char:
+                    return
+        if i == key.PAGEUP:
+            char = nodes[selected][0][0]
+            while selected - 1 > 0:
+                selected -= 1
+                if nodes[selected][0][0] != char:
+                    return
 
 def setimage():
     global image
@@ -91,7 +104,7 @@ def on_key_press (symbol, modifiers):
         fillnodes()
         setimage()
         return
-    elif symbol == key.Q or symbol == key.UP or symbol == key.DOWN:
+    else:
         keys_pressed.add(symbol)
 
 #unmark held down keys
