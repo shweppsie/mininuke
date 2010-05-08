@@ -13,8 +13,8 @@ class Path(pyglet.text.Label):
 
 class File(pyglet.text.Label):
     def __init__(self, directory,x,y):
-        super(File, self).__init__(directory, font_name, font_size, False,True, (255,255,255,255), x, y)
+        super(File, self).__init__(directory, font_name, font_size, False,True, (0,255,0,255), x, y)
 
 class Folder(pyglet.text.Label):
     def __init__(self, directory,x,y):
-        super(Folder, self).__init__(directory, font_name, font_size, False,True, (0,0,255,255), x, y)
+        super(Folder, self).__init__(directory, font_name, font_size, False,True, (0,100,255,255), x, y)

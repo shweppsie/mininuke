@@ -70,7 +70,7 @@ def doitem(node):
         #file
         window.set_exclusive_mouse(False)
         window.set_fullscreen(False)
-        player.Player(filename, args, configurator.config.get("mplayer", "log"))
+        player.Player(os.path.join(browse.getpath(),node[0]), configurator.config.get("mplayer", "arguments"), configurator.config.get("mplayer", "log"))
         window.set_fullscreen(True)
         window.set_exclusive_mouse(True)
         window.activate()
@@ -107,10 +107,12 @@ def on_draw():
     keys_update()
     window.clear()
     
+    print (selected * 40)
     x = 100
-    y = window.height/4 + (selected * 40)
+    y = (window.height/4) + (selected * 40)
+    #y = (window.height/2) - (selected * 40)
     for i in xrange(len(nodes)):
-        if y > 100 and y < window.height / 2.5:
+        if y > 100 and y < (window.height-160):
             if nodes[i][1]:
                 label = labels.File(nodes[i][0],x,y)
             else:
@@ -125,9 +127,9 @@ def on_draw():
     title = labels.Title('MININUKE', x=window.width/2-80, y=(window.height-60) )
     title.set_style('background_color', (0,0,0,255))
     title.draw()
-    labels.Path(browse.curpath(), x=x, y=(window.height/2.5)).draw()
-    if image != None:
-        image.blit( (window.width/2) , (window.height-image.height) )
+    #labels.Path(browse.curpath(), x=x, y=(window.height/2.5)).draw()
+    #if image != None:
+    #    image.blit( (window.width/2) , (window.height-image.height) )
 
 fillnodes()
 pyglet.app.run()
