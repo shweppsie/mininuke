@@ -120,9 +120,8 @@ def on_draw():
     keys_update()
     window.clear()
     
-    print (selected * 40)
     x = 100
-    y = (window.height/4) + (selected * 40)
+    y = (selected * 40) + (window.height/2)
     #y = (window.height/2) - (selected * 40)
     for i in xrange(len(nodes)):
         if y > 100 and y < (window.height-160):
@@ -133,7 +132,7 @@ def on_draw():
             if i is selected:
                 label.set_style('bold',True)
                 label.set_style('italic',False)
-                label.font_size += 2
+                label.font_size += 5
             label.draw()
         y -= 40
     
