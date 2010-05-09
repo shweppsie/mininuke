@@ -11,8 +11,11 @@ class Browser:
     def getimage(self,path):
         rootpath = os.path.join(self.getpath(),path)
         if os.path.isfile(rootpath):
-            #TODO load thumbnail for image
-            print rootpath
+            image = rootpath[:rootpath.rfind('.')]+'.png'
+            if os.path.exists(image):
+                return image
+            else:
+                return None
         else:
             rootpath = os.path.join(rootpath,'folder.png')
             if os.path.exists(rootpath):
