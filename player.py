@@ -16,6 +16,6 @@ class Player:
         args = args.split(' ')
         command.extend(args)
 
-        p = subprocess.Popen(command, stdout=logger, stderr=logger).wait()
+        p = subprocess.Popen(command, stdout=sys.stdout, stderr=sys.stderr).wait()
         sys.stdout.flush()
         sys.stderr.flush()
