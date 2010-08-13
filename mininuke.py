@@ -20,7 +20,6 @@ browse = browser.Browser(configurator.config.get("mininuke", "path"))
 keys_pressed = set()
 selected = 0
 nodes = []
-image = None
 
 #updates the list of nodes (files and directories)
 def fillnodes():
@@ -42,11 +41,9 @@ def keys_update():
         if i == key.DOWN:
             if selected < len(nodes)-1:
                 selected += 1
-                setimage()
         if i == key.UP:
             if selected > 0:
                 selected -= 1
-                setimage()
         #page down and up take you to the next and previous character
         if i == key.PAGEDOWN:
             char = nodes[selected][0][0]
@@ -54,26 +51,12 @@ def keys_update():
                 selected += 1
                 if nodes[selected][0][0] != char:
                     break
-            setimage()
         if i == key.PAGEUP:
             char = nodes[selected][0][0]
             while selected - 1 >= 0:
                 selected -= 1
                 if nodes[selected][0][0] != char:
                     break
-            setimage()
-
-def setimage():
-    global image
-    if len(nodes) > 0:
-        imagepath = browse.getimage(nodes[selected][0])
-        if imagepath != None:
-            #directory has an image
-            image = pyglet.image.load(imagepath)
-            image.anchor_x = image.width // 2
-            image.anchor_y = image.height // 2
-        else:
-            image = None
 
 #select current item
 def doitem(node):
@@ -83,7 +66,6 @@ def doitem(node):
         browse.down(node[0])
         selected = 0
         fillnodes()
-        setimage()
     else:
         #file
         window.set_exclusive_mouse(False)
@@ -101,13 +83,12 @@ def doitem(node):
 @window.event
 def on_key_press (symbol, modifiers):
     global selected,keys_pressed
-    if symbol == key.ENTER:
+    if symbol == key.ENTER or symbol == key.RIGHT:
         if selected < len(nodes): # there must be files in this folder
             doitem(nodes[selected])
-    elif symbol == key.BACKSPACE:
+    elif symbol == key.BACKSPACE or symbol == key.LEFT:
         browse.up()
         fillnodes()
-        setimage()
         return
     else:
         keys_pressed.add(symbol)
@@ -145,10 +126,7 @@ def on_draw():
     title.set_style('background_color', (0,0,0,255))
     title.draw()
     labels.Path(browse.curpath(), x=x, y=(window.height-120)).draw()
-    if image != None:
-        image.blit( (window.width/3)*2 , (window.height/2) )
 
 fillnodes()
-setimage()
 pyglet.app.run()
 
