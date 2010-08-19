@@ -3,6 +3,7 @@
 import pyglet
 import pyglet.window
 from pyglet.window import key
+
 from operator import itemgetter
 import sys
 import os
