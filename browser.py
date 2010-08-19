@@ -43,7 +43,7 @@ class Browser:
 		files = []
 		folders = []
 
-		filter = ['avi','.mkv','divx','wmv','mov']
+		filter = ['avi','.mkv','divx','wmv','mov','mp4']
 		nodes = os.listdir( self.getpath() )
 
 		if nodes > 0:
