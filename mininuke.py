@@ -28,7 +28,10 @@ def update_image():
 	if len(nodes)>selected:
 		imgpath = browse.getimage(nodes[selected][0])
 		if imgpath != None:
-			image = pyglet.image.load(imgpath)
+			try:
+				image = pyglet.image.load(imgpath)
+			except:
+				image = None
 		else:
 			image = None
 	else:
