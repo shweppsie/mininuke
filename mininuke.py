@@ -73,6 +73,10 @@ def keys_update():
 				if nodes[selected][0][0] != char:
 					update_image()
 					break
+		if i == key.HOME:
+			selected = 0
+		if i == key.END:
+			selected = len(nodes)-1
 
 #select current item
 def doitem(node):
