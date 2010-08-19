@@ -15,7 +15,6 @@ class Browser:
 			if os.path.exists(image):
 				return image
 		directory = os.path.join(self.getpath(),filename,'folder.png')
-		print directory
 		if os.path.isfile(directory):
 			if os.path.exists(directory):
 				return directory
