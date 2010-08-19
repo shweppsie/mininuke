@@ -154,7 +154,7 @@ def on_draw():
 	title.draw()
 	labels.Path(browse.curpath(), x=x, y=(window.height-120)).draw()
 	if image != None:
-			image.blit((window.width/3)*2, window.height/2-image.height/2, 0)
+			image.blit((window.width/3)*2-image.width/2, window.height/2-image.height/2, 0)
 
 fillnodes()
 pyglet.app.run()
