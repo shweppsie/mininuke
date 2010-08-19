@@ -112,6 +112,7 @@ def on_key_press (symbol, modifiers):
 			doitem(nodes[selected])
 			update_image()
 	elif symbol == key.BACKSPACE or symbol == key.LEFT:
+		selected = 0
 		browse.up()
 		fillnodes()
 		update_image()
