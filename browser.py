@@ -15,7 +15,8 @@ class Browser:
 			if os.path.exists(filename):
 				return filename
 		elif os.path.isdir(full_path):
-			directory = os.path.join(self.root,'.thumbs',self.path,'folder.png')
+			directory = os.path.join(self.root,self.path,path,'folder.png')
+			print directory
 			if os.path.exists(directory):
 				return directory
 
