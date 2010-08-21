@@ -29,7 +29,7 @@ are shown.
     path=/usr/bin/mplayer
     arguments=""
 
-# Thumbnails
+# Thumbnails for files #
 mininuke looks for a folder named .thumbs. If it exists it will load thumbnails for files from there.
 
 e.g.
@@ -38,3 +38,6 @@ e.g.
 
 	file = animated/somefile.avi
 	thumbnail = .thumbs/animated/somefile.png
+
+#Thumbnails for folders #
+mininuke will show an image when you hover over a folder if there is a folder.png image in the folder.
