@@ -31,6 +31,7 @@ def update_image():
 			try:
 				image = pyglet.image.load(imgpath)
 			except:
+				print "Corrupt Image: %s" % imgpath
 				image = None
 		else:
 			image = None
