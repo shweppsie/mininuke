@@ -29,3 +29,12 @@ are shown.
     path=/usr/bin/mplayer
     arguments=""
 
+# Thumbnails
+mininuke looks for a folder named .thumbs. If it exists it will load thumbnails for files from there.
+
+e.g.
+	file = somefile.mp4
+	thumbnail = .thumbs/somefile.png
+
+	file = animated/somefile.avi
+	thumbnail = .thumbs/animated/somefile.png
