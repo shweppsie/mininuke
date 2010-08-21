@@ -134,9 +134,11 @@ def on_draw():
 	keys_update()
 	window.clear()
 	
+	if image != None:
+			image.blit(window.width-image.width-50, window.height/2-image.height/2, 0)
+
 	x = 100
 	y = (selected * 40) + (window.height/2)
-	#y = (window.height/2) - (selected * 40)
 	for i in xrange(len(nodes)):
 		if y > 100 and y < (window.height-160):
 			if nodes[i][1]:
@@ -154,8 +156,6 @@ def on_draw():
 	title.set_style('background_color', (0,0,0,255))
 	title.draw()
 	labels.Path(browse.curpath(), x=x, y=(window.height-120)).draw()
-	if image != None:
-			image.blit((window.width/3)*2-image.width/2, window.height/2-image.height/2, 0)
 
 fillnodes()
 pyglet.app.run()
