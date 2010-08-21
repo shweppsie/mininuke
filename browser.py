@@ -20,10 +20,7 @@ class Browser:
 				return directory
 
 	def getpath(self):
-		return os.path.join(self.root+self.path)
-
-	def isdir(self, path):
-		return os.path.isdir(os.path.join(self.getpath(),path))
+		return os.path.join(self.root,self.path)
 
 	def down(self, dir):
 		newpath = os.path.join( self.getpath(),dir )
