@@ -3,19 +3,19 @@ import sys
 
 class Browser:
 	def __init__(self,path):
-		self.path = "/"
+		self.path = "./"
 		self.root = os.path.expanduser(path)
 		if not os.path.isdir(self.root):
 			raise IOError('Path does not exist '+self.root)
 
-	def getimage(self,filename):
-	  	filename = os.path.join(self.getpath(),filename)
-		if os.path.isfile(filename):
-			image = filename[:filename.rfind('.')]+'.png'
-			if os.path.exists(image):
-				return image
-		directory = os.path.join(self.getpath(),filename,'folder.png')
-		if os.path.isfile(directory):
+	def getimage(self,path):
+		full_path = os.path.join(self.getpath(), path)
+		if os.path.isfile(full_path):
+			filename = self.root+'/.thumbs/'+self.path+'/'+path[:path.rfind('.')]+'.png'
+			if os.path.exists(filename):
+				return filename
+		elif os.path.isdir(full_path):
+			directory = os.path.join(self.root,'.thumbs',self.path,'folder.png')
 			if os.path.exists(directory):
 				return directory
 
