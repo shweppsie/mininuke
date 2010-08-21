@@ -45,13 +45,14 @@ class Browser:
 
 		if nodes > 0:
 			for a in nodes:
+				if a.startswith('.'):
+					continue;
 				if os.path.isdir(os.path.join(self.getpath(),a)):
 					folders.append(a)
-
-			for a in nodes:
-				for i in filter:
-					if a.endswith(i):
-						files.append(a)
+				else:
+					for i in filter:
+						if a.endswith(i):
+							files.append(a)
 		
 		return (files, folders)
 
