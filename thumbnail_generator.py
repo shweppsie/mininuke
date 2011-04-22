@@ -66,8 +66,7 @@ for folder in args.folders:
 				print "INFO: processing %s" % f
 				generate_thumbnail(root,f)
 	else:
-		for f in os.listdir(folder):
+		for f in os.listdir(os.path.join(root,folder)):
 			f = os.path.join(folder,f)
 			print "INFO: processing %s" % f
-			if os.path.isfile(f):
-				generate_thumbnail(f)
+			generate_thumbnail(root,f)
