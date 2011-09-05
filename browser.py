@@ -5,7 +5,7 @@ from Node import Node
 class Browser:
 	def __init__(self,path):
 		self.filter = ['avi','.mkv','divx','wmv','mov','mp4']
-		self.path = "./"
+		self.path = ""
 		self.root = os.path.expanduser(path)
 		if not os.path.isdir(self.root):
 			raise IOError('Path does not exist '+self.root)
