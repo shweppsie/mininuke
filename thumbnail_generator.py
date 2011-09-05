@@ -12,33 +12,31 @@ def generate_thumbnail(root,f):
 	for i in xrange(len(formats)):
 		if not f.endswith(formats[i]):
 			if (len(formats)-1) == i:
-				print "INFO: unsupported format"
+				print "DEBUG: unsupported format"
 				return
 		else:
 			break
-	
-	thumb = os.path.join(root+'.thumbs',f)
-	thumb = thumb[:thumb.rfind('.')] + '.png'
-	folder = thumb[:thumb.rfind('/')]
 
-	f = os.path.join(root,f)
+	# convert f to a relative path
+	f = f.replace(root,'')
+	if f.startswith('/'):
+		f = f[1:]
 
+	# work outh the thumbnail path
+	thumb = os.path.join(root,'.thumbs',os.splitext(f)[0]+'.png')
+
+	# create any folders we need to store the thumbnails in
+	folder = os.path.dirname(thumb)
 	if not os.path.exists(folder):
 		os.mkdir(folder)
-	
+
+	# create thumbnail
 	if not os.path.exists(thumb):
 		print "%s: thumbnail does not exist. creating..." % f
-		args = ['/usr/local/bin/ffmpegthumbnailer', '-i', f, '-o', thumb, '-s', '512']
-		try:
-			output = subprocess.Popen(args, stderr=subprocess.PIPE).communicate()[0]
-		except:
-			if os.path.exists(thumb):
-				os.remove(thumb)
-			raise
+		args = ['/usr/bin/ffmpegthumbnailer', '-i', os.path.join(root,f), '-o', thumb, '-s', '512']
+		output = subprocess.Popen(args, stderr=subprocess.PIPE).communicate()[0]
 		if output is not None:
 			sys.stderr.write("ERROR: %s" % output)
-
-	print "SUCCESS: %s" % f
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-q','--quiet',action='store_true',default=False,help="Only output on errors")
@@ -60,13 +58,13 @@ else:
 
 for folder in args.folders:
 	if args.recursive:
-		for (base,folders,files) in os.walk(folder):
+		for (base,folders,files) in os.walk(os.path.join(root,folder)):
 			for f in files:
 				f = os.path.join(base,f)
-				print "INFO: processing %s" % f
+				print "DEBUG: processing %s" % f
 				generate_thumbnail(root,f)
 	else:
 		for f in os.listdir(os.path.join(root,folder)):
 			f = os.path.join(folder,f)
-			print "INFO: processing %s" % f
+			print "DEBUG: processing %s" % f
 			generate_thumbnail(root,f)
