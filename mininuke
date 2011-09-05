@@ -30,7 +30,7 @@ def update_image():
 	else:
 		image = None
 
-#updates the list of nodes (files and directories)
+# updates the list of nodes (files and directories)
 def fillnodes():
 	global nodes
 	nodes = browse.list()
@@ -43,7 +43,7 @@ def fillnodes():
 				pass
 	nodes = sorted(nodes, key=lambda node: node.name)
 
-#keys that have action when held down go here
+# keys that have action when held down go here
 def keys_update():
 	global selected,files,folders,keys_pressed
 	for i in keys_pressed:
