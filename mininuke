@@ -149,7 +149,7 @@ def on_draw():
 	title = labels.Title('MININUKE', x=window.width/2-80, y=(window.height-60) )
 	title.set_style('background_color', (0,0,0,255))
 	title.draw()
-	labels.Path(browse.curpath(), x=x, y=(window.height-120)).draw()
+	labels.Path(browse.curpath().replace('/',' > '), x=x, y=(window.height-120)).draw()
 
 fillnodes()
 pyglet.app.run()
