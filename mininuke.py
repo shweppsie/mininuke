@@ -26,7 +26,7 @@ image = None
 def update_image():
 	global image
 	if len(nodes)>selected:
-		imgpath = browse.getimage(nodes[selected][0])
+		imgpath = nodes[selected].getimage()
 		if imgpath != None:
 			try:
 				image = pyglet.image.load(imgpath)
@@ -41,13 +41,8 @@ def update_image():
 #updates the list of nodes (files and directories)
 def fillnodes():
 	global nodes
-	nodes = []
-	(files,folders) = browse.list()
-	for i in folders:
-		nodes.append((i,False))
-	for i in files:
-		nodes.append((i,True))
-	nodes = sorted(nodes, key=itemgetter(0))
+	nodes = browse.list()
+	nodes = sorted(nodes, key=lambda node: node.name)
 
 #keys that have action when held down go here
 def keys_update():
@@ -86,16 +81,16 @@ def keys_update():
 #select current item
 def doitem(node):
 	global selected
-	if not node[1]:
+	if node.gettype() is 'folder':
 		#directory
-		browse.down(node[0])
+		browse.down(node)
 		selected = 0
 		fillnodes()
 	else:
 		#file
 		window.set_exclusive_mouse(False)
 		window.set_fullscreen(False)
-		player.Player(os.path.join(browse.getpath(),node[0]), configurator.config.get("mplayer", "arguments"), configurator.config.get("mplayer", "log"))
+		player.Player(node.getfilename(), configurator.config.get("mplayer", "arguments"), configurator.config.get("mplayer", "log"))
 		window.set_fullscreen(True)
 		window.set_exclusive_mouse(True)
 		window.activate()
@@ -141,10 +136,10 @@ def on_draw():
 	y = (selected * 40) + (window.height/2)
 	for i in xrange(len(nodes)):
 		if y > 100 and y < (window.height-160):
-			if nodes[i][1]:
-				label = labels.File(nodes[i][0],x,y)
-			else:
-				label = labels.Folder(nodes[i][0],x,y)
+			if nodes[i].gettype() == 'file':
+				label = labels.File(nodes[i].getname(),x,y)
+			elif nodes[i].gettype() == 'folder':
+				label = labels.Folder(nodes[i].getname(),x,y)
 			if i is selected:
 				label.set_style('bold',True)
 				label.set_style('italic',False)

@@ -1,28 +1,66 @@
 import os
 import sys
 
+class Node:
+	def __init__(self,filename,kind,image=None):
+		self.kind = kind
+		self.image = image
+		if kind is 'folder':
+			# full folder path
+			self.filename = filename
+			# folder name
+			self.name = os.path.basename(filename)
+		elif kind is 'file':
+			# filename including path and extension
+			self.filename = filename
+			# just the name of the file
+			self.name = os.path.splitext(os.path.basename(filename))[0]
+
+	def __repr__(self):
+		return self.name
+
+	def __str__(self):
+		return self.name
+
+	def getname(self):
+		return self.name
+
+	def gettype(self):
+		return self.kind
+
+	def getfilename(self):
+		return self.filename
+
+	def getimage(self):
+		return self.image
+
 class Browser:
 	def __init__(self,path):
+		self.filter = ['avi','.mkv','divx','wmv','mov','mp4']
 		self.path = "./"
 		self.root = os.path.expanduser(path)
 		if not os.path.isdir(self.root):
 			raise IOError('Path does not exist '+self.root)
 
-	def getimage(self,path):
-		full_path = os.path.join(self.getpath(), path)
+	def getimage(self,item):
+		full_path = os.path.join(self.getpath(), item)
 		if os.path.isfile(full_path):
-			filename = self.root+'/.thumbs/'+self.path+'/'+path[:path.rfind('.')]+'.png'
-			if os.path.exists(filename):
-				return filename
+			thumb = self.get_thumb_path()+'/'+item[:item.rfind('.')]+'.png'
+			if os.path.exists(thumb):
+				return thumb
 		elif os.path.isdir(full_path):
-			directory = os.path.join(self.root,self.path,path,'folder.png')
+			directory = os.path.join(self.root,self.path,item,'folder.png')
 			if os.path.exists(directory):
 				return directory
 
 	def getpath(self):
 		return os.path.join(self.root,self.path)
 
-	def down(self, dir):
+	def get_thumb_path(self):
+		return os.path.join(self.root,'.thumbs',self.path)
+
+	def down(self, node):
+		dir = node.getname()
 		newpath = os.path.join( self.getpath(),dir )
 		if os.path.isdir(newpath):
 			self.path = os.path.join( self.path,dir )
@@ -37,24 +75,29 @@ class Browser:
 		return self.path
 
 	def list(self):
-		files = []
-		folders = []
+		items = os.listdir( self.getpath() )
 
-		filter = ['avi','.mkv','divx','wmv','mov','mp4']
-		nodes = os.listdir( self.getpath() )
+		nodes = []
 
-		if nodes > 0:
-			for a in nodes:
-				if a.startswith('.'):
+		if items > 0:
+			for item in items:
+				if item.startswith('.'):
+					# hidden file
 					continue;
-				if os.path.isdir(os.path.join(self.getpath(),a)):
-					folders.append(a)
+
+				path = os.path.join(self.getpath(),item)
+
+				if os.path.isdir(path):
+					# folder
+					nodes.append(Node(path,'folder'))
 				else:
-					for i in filter:
-						if a.endswith(i):
-							files.append(a)
+					# file
+					for i in self.filter:
+						if item.endswith(i):
+							nodes.append(Node(path,'file',self.getimage(item)))
+							continue
 		
-		return (files, folders)
+		return nodes
 
 if __name__=="__main__":
 	print sys.argv
