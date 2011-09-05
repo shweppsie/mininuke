@@ -26,15 +26,7 @@ image = None
 def update_image():
 	global image
 	if len(nodes)>selected:
-		imgpath = nodes[selected].getimage()
-		if imgpath != None:
-			try:
-				image = pyglet.image.load(imgpath)
-			except:
-				print "Corrupt Image: %s" % imgpath
-				image = None
-		else:
-			image = None
+		image = nodes[selected].getimage()
 	else:
 		image = None
 
@@ -42,6 +34,13 @@ def update_image():
 def fillnodes():
 	global nodes
 	nodes = browse.list()
+	for node in nodes:
+		imgpath = node.getimagefile()
+		if imgpath != None:
+			try:
+				node.setimage(pyglet.image.load(imgpath))
+			except:
+				pass
 	nodes = sorted(nodes, key=lambda node: node.name)
 
 #keys that have action when held down go here
