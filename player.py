@@ -6,11 +6,10 @@ import configurator
 
 class Player:
     def __init__(self, filename, args, log):
-        
         log = os.path.expanduser(log)
         logger = open(log,'w')
             
-        command = ["/usr/bin/mplayer"]
+        command = [configurator.config.get("mplayer", "path")]
         command.append(filename)
 
         args = args.split(' ')
