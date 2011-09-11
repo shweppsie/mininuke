@@ -23,7 +23,7 @@ def generate_thumbnail(root,f):
 		f = f[1:]
 
 	# work outh the thumbnail path
-	thumb = os.path.join(root,'.thumbs',os.splitext(f)[0]+'.png')
+	thumb = os.path.join(root,'.thumbs',os.path.splitext(f)[0]+'.png')
 
 	# create any folders we need to store the thumbnails in
 	folder = os.path.dirname(thumb)
