@@ -95,8 +95,9 @@ def keys_update():
 			selected = len(nodes)-1
 
 #select current item
-def doitem(node):
+def doitem():
 	global selected
+	node = nodes[selected]
 	if node.gettype() is 'folder':
 		# directory
 		browse.down(node)
@@ -121,7 +122,7 @@ def on_key_press (symbol, modifiers):
 	global selected,keys_pressed
 	if symbol == key.ENTER or symbol == key.RIGHT:
 		if selected < len(nodes): # there must be files in this folder
-			doitem(nodes[selected])
+			doitem()
 			update_image()
 	elif symbol == key.BACKSPACE or symbol == key.LEFT:
 		selected = 0
