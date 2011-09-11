@@ -5,8 +5,8 @@ import os
 import configurator
 
 class Player:
-    def __init__(self, filename, args, log):
-        log = os.path.expanduser(log)
+    def __init__(self, filename, args):
+        log = os.path.expanduser(configurator.config.get("mplayer", "log"))
         logger = open(log,'w')
             
         command = [configurator.config.get("mplayer", "path")]

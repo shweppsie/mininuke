@@ -107,7 +107,7 @@ def doitem():
 		# file
 		window.set_exclusive_mouse(False)
 		window.set_fullscreen(False)
-		player.Player(node.getfilename(), configurator.config.get("mplayer", "arguments"), configurator.config.get("mplayer", "log"))
+		player.Player(node.getfilename(), configurator.config.get("mplayer", "arguments"))
 		window.set_fullscreen(True)
 		window.set_exclusive_mouse(True)
 		window.activate()
