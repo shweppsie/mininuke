@@ -74,17 +74,17 @@ def keys_update():
 
 		# page down and up take you to the next and previous starting character
 		if i == key.PAGEDOWN:
-			char = nodes[selected].getname()
+			char = nodes[selected].getname()[0]
 			while selected + 1 < len(nodes):
 				selected += 1
-				if nodes[selected].getname() != char:
+				if nodes[selected].getname()[0] != char:
 					update_image()
 					break
 		if i == key.PAGEUP:
-			char = nodes[selected].getname()
+			char = nodes[selected].getname()[0]
 			while selected - 1 >= 0:
 				selected -= 1
-				if nodes[selected].getname() != char:
+				if nodes[selected].getname()[0] != char:
 					update_image()
 					break
 
