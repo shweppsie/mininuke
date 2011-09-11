@@ -57,8 +57,12 @@ def fillnodes():
 def keys_update():
 	global selected,keys_pressed
 	for i in keys_pressed:
+
+		# q quits the program
 		if i == key.Q:
 			pyglet.app.exit() # q quits the program as does escape
+
+		# down and up move to the next and prevous item
 		if i == key.DOWN:
 			if selected < len(nodes)-1:
 				selected += 1
@@ -67,7 +71,8 @@ def keys_update():
 			if selected > 0:
 				selected -= 1
 				update_image()
-		#page down and up take you to the next and previous character
+
+		# page down and up take you to the next and previous starting character
 		if i == key.PAGEDOWN:
 			char = nodes[selected].getname()
 			while selected + 1 < len(nodes):
@@ -82,6 +87,8 @@ def keys_update():
 				if nodes[selected].getname() != char:
 					update_image()
 					break
+
+		# home and end jump to the first and last item respectively
 		if i == key.HOME:
 			selected = 0
 		if i == key.END:
@@ -91,12 +98,12 @@ def keys_update():
 def doitem(node):
 	global selected
 	if node.gettype() is 'folder':
-		#directory
+		# directory
 		browse.down(node)
 		selected = 0
 		fillnodes()
 	else:
-		#file
+		# file
 		window.set_exclusive_mouse(False)
 		window.set_fullscreen(False)
 		player.Player(node.getfilename(), configurator.config.get("mplayer", "arguments"), configurator.config.get("mplayer", "log"))
@@ -104,11 +111,11 @@ def doitem(node):
 		window.set_exclusive_mouse(True)
 		window.activate()
 	
-		#ensure no more keypreses will be processed
+		# ensure no more keypreses will be processed
 		keys_pressed = set() 
 		return
 
-#key press event
+# key press event
 @window.event
 def on_key_press (symbol, modifiers):
 	global selected,keys_pressed
@@ -125,14 +132,14 @@ def on_key_press (symbol, modifiers):
 	else:
 		keys_pressed.add(symbol)
 
-#unmark held down keys
+# unmark held down keys
 @window.event
 def on_key_release (symbol, modifiers):
 	if symbol in keys_pressed:
 		keys_pressed.remove(symbol)
 	keys_update()
 
-#draw method
+# draw method
 @window.event
 def on_draw():
 	keys_update()
