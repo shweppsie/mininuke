@@ -55,7 +55,7 @@ def fillnodes():
 
 # keys that have action when held down go here
 def keys_update():
-	global selected,files,folders,keys_pressed
+	global selected,keys_pressed
 	for i in keys_pressed:
 		if i == key.Q:
 			pyglet.app.exit() # q quits the program as does escape
