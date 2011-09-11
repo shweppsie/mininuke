@@ -1,13 +1,23 @@
 #!/usr/bin/env python
 
-import pyglet
-import pyglet.window
-from pyglet.window import key
-
 from operator import itemgetter
 import sys
 import os
 import optparse
+
+try:
+	# hideous temporary fix because of crap debian packaging
+	pypath='/usr/share/pyshared/'
+	if os.path.exists(pypath):
+		sys.path.append(pypath)
+	import pyglet
+	import pyglet.window
+	from pyglet.window import key
+except:
+	print "Pyglet not found. Please install pyglet either by install the package \
+python-pyglet or by downloading the source from www.pyglet.org."
+	exit(1)
+
 
 import browser
 import player
