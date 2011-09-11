@@ -94,7 +94,7 @@ def keys_update():
 		if i == key.END:
 			selected = len(nodes)-1
 
-#select current item
+# select current item
 def doitem():
 	global selected
 	node = nodes[selected]
