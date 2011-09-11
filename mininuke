@@ -60,7 +60,7 @@ def keys_update():
 
 		# q quits the program
 		if i == key.Q:
-			pyglet.app.exit() # q quits the program as does escape
+			pyglet.app.exit()
 
 		# down and up move to the next and prevous item
 		if i == key.DOWN:
