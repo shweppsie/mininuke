@@ -1,3 +1,5 @@
+#**This software is no longer maintained. It remains here in the hope it may be useful to someone.**#
+
 # Mininuke #
 
 Media Center File Browser
